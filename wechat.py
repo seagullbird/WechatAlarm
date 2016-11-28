@@ -3,27 +3,38 @@ from itchat import client
 import time
 
 
-stopTxt = "老公我爱你"
+stopTxt = "stopTxt"
 alarmTxt = "回复'" + stopTxt + "'即可停止闹钟～"
-finalMsg = '么么哒！'
-toUserName = 'aj_18610508701'
+finalMsg = 'finalMsg'
+toUserName = '<toUserName>'
 
 __client = client()
 
-__client.auto_login(enableCmdQR=True)
+statusStorageDir = 'itchat.pkl'
+if not __client.load_login_status(statusStorageDir):
+    __client.auto_login(enableCmdQR=False)
+    __client.dump_login_status(statusStorageDir)
 
 
 def listenToReply():
-    for i in range(5):
+    for i in range(6):
+        time.sleep(0.5)
         if __client.storageClass.msgList:
-            msg = __client.storageClass.msgList.pop()
-            if msg['Text'] == stopTxt:
-                print(msg)
-                __client.send_msg(finalMsg, toUserName)
-                return True
+            for msg in __client.storageClass.msgList:
+                if msg['Text'] == stopTxt:
+                    print(msg)
+                    __client.send_msg(finalMsg, toUserName)
+                    return True
     return False
 
-if __name__ == '__main__':
+
+def run():
+    count = 0
     while not listenToReply():
-        print(__client.send_msg(alarmTxt, toUserName))
-        time.sleep(3)
+        print(__client.send_msg(alarmTxt[count % len(alarmTxt)], toUserName))
+        count += 1
+    return count
+
+
+if __name__ == '__main__':
+    print('今天发了 %d 条才叫醒她' % run())
