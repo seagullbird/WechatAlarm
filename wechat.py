@@ -3,10 +3,12 @@ from itchat import client
 import time
 
 
-stopTxt = "stopTxt"
-alarmTxt = "回复'" + stopTxt + "'即可停止闹钟～"
-finalMsg = 'finalMsg'
-toUserName = '<toUserName>'
+stopTxt = "我爱你老公"
+alarmTxt = "宝贝，快起床吧，爱你么么，"
+alarmTxt += "回‘" + stopTxt + "’解锁闹铃[Shy]"
+alarmTxt = alarmTxt.split('，')
+finalMsg = '我也爱你宝宝'
+toUserName = '<herUserName>'
 
 __client = client()
 
